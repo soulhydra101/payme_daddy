@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Unlock File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 30px;
+        }
+        .person-image-wrapper {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+        .person-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        .file-image {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            z-index: 1;
+        }
+        .payment-section {
+            margin-top: 20px;
+        }
+        .person-list {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .person {
+            margin: 10px;
+            text-align: center;
+        }
+        .person img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+        }
+        .person p {
+            margin-top: 5px;
+        }
+        .file-unlocked {
+            display: none;
+            margin-top: 30px;
+        }
+        .file-unlocked.show {
+            display: block;
+        }
+        /* Hidden Payment Section */
+        .hidden-payment-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .hidden-payment-section.show {
+            display: block;
+        }
+        .payment-status {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .payment-link {
+            color: blue;
+            cursor: pointer;
+        }
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            margin-top: 20px;
+        }
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unlock the File</h1>
+        
+        <!-- Circle layout for images -->
+        <div class="circle-container">
+            <img src="./image.png" alt="File" class="file-image" id="file-img">
+            <div class="person-image-wrapper" style="top: 10px; left: 120px; background-image: url('./samali-bg.jpg');" id="samali-wrapper">
+                <img src="./samali.jpg" alt="Samali" class="person-image" id="samali-img">
+            </div>
+            <div class="person-image-wrapper" style="top: 40px; left: 210px; background-image: url('liza-bg.jpg');" id="liza-wrapper">
+                <img src="liza.jpg" alt="Liza" class="person-image" id="liza-img">
+            </div>
+            <div class="person-image-wrapper" style="top: 120px; left: 250px; background-image: url('eleen-bg.jpg');" id="eleen-wrapper">
+                <img src="elenn.jpg" alt="Eleen" class="person-image" id="eleen-img">
+            </div>
+            <div class="person-image-wrapper" style="top: 200px; left: 210px; background-image: url('./nitish-bg.jpg');" id="nitish-wrapper">
+                <img src="./nitish.jpg" alt="Nitish" class="person-image" id="nitish-img">
+            </div>
+            <div class="person-image-wrapper" style="top: 230px; left: 120px; background-image: url('arijit-bg.jpg');" id="arijit-wrapper">
+                <img src="arijit.jpg" alt="Arijit" class="person-image" id="arijit-img">
+            </div>
+        </div>
+
+        <!-- Payment Section (Initially Hidden) -->
+        <div class="payment-section">
+            <button onclick="startPayment()">Make Payment</button>
+        </div>
+
+        <!-- Hidden Payment Section (Initially Hidden) -->
+        <div class="hidden-payment-section" id="payment-section">
+            <h3 id="paying-person">Who is paying?</h3>
+            <button onclick="processPayment()">Pay Now</button>
+            <div class="payment-status" id="payment-status"></div>
+            <div class="payment-screenshot" id="payment-screenshot"></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- File Unlock Section -->
+        <div class="file-unlocked" id="file-unlocked">
+            <p>The file is unlocked! Here is your file.</p>
+            <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQKEss55YrgumDJ8tx3jE6K3M6cQid3b60Ow&s"><img src="./BUTTON-d-2.jpg" alt="Unlocked File" id="file-img-unlocked" style="height: auto; width: auto;"></a>
+        </div>
+
+        <!-- List of people and amounts -->
+        <div class="person-list">
+            <div class="person">
+                <img src="./samali.jpg" alt="Samali">
+                <p>Samali<br>₹20</p>
+            </div>
+            <div class="person">
+                <img src="./liza.jpg" alt="Liza">
+                <p>Liza<br>₹20</p>
+            </div>
+            <div class="person">
+                <img src="./elenn.jpg" alt="Eleen">
+                <p>Eleen<br>₹5</p>
+            </div>
+            <div class="person">
+                <img src="nitish.jpg" alt="Nitish">
+                <p>Nitish<br>₹19</p>
+            </div>
+            <div class="person">
+                <img src="./arijit.jpg" alt="Arijit">
+                <p>Arijit<br>₹15</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const totalPayments = 5;
+        let paymentsMade = 0;
+        const peopleImageWrappers = [
+            document.getElementById('samali-wrapper'),
+            document.getElementById('liza-wrapper'),
+            document.getElementById('eleen-wrapper'),
+            document.getElementById('nitish-wrapper'),
+            document.getElementById('arijit-wrapper')
+        ];
+
+        const peopleImages = [
+            document.getElementById('samali-img'),
+            document.getElementById('liza-img'),
+            document.getElementById('eleen-img'),
+            document.getElementById('nitish-img'),
+            document.getElementById('arijit-img')
+        ];
+
+        const progressBar = document.getElementById('progress-bar');
+
+        // Update image opacity and background color to reflect payment progress
+        function updatePersonImages() {
+            for (let i = 0; i < totalPayments; i++) {
+                if (i < paymentsMade) {
+                    peopleImageWrappers[i].style.opacity = 1;
+                    peopleImageWrappers[i].style.backgroundColor = "rgba(0, 128, 0, 0.3)";
+                }
+            }
+        }
+
+        // Update the progress bar
+        function updateProgressBar() {
+            const progress = (paymentsMade / totalPayments) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Simulate making a payment
+        function startPayment() {
+            const personNames = ['Samali', 'Liza', 'Eleen', 'Nitish', 'Arijit'];
+            document.getElementById("payment-section").classList.add("show");
+            document.getElementById("paying-person").innerText = `${personNames[paymentsMade]} is paying`;
+        }
+
+        // Simulate payment done
+        function processPayment() {
+            document.getElementById("payment-status").innerText = "Payment Successful!";
+            document.getElementById("payment-screenshot").innerHTML = '<img src="https://via.placeholder.com/200" alt="Payment Screenshot">';
+            paymentsMade++;
+            updatePersonImages();
+            updateProgressBar();
+            unlockFile();
+        }
+
+        // Update file unlocking section
+        function unlockFile() {
+            if (paymentsMade === totalPayments) {
+                document.getElementById("file-unlocked").classList.add("show");
+                document.getElementById("file-img-unlocked").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
